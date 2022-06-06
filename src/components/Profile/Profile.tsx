@@ -113,12 +113,13 @@ export const Profile: React.FC = () => {
             <div className="list_user" key={repo.id}>
               <div className="card_user">
                 <div className="card_user_inf">
-                  <div
-                    style={{ cursor: "pointer" }}
-                    onClick={() => window.open(`${repo.html_url}`)}
+                  <a
+                    style={{ textDecoration: "none", color: "black" }}
+                    href={repo.html_url}
+                    target="_blank"
                   >
                     <b>{repo.name}</b>
-                  </div>
+                  </a>
                   <div className="inf_repo">
                     <div>{repo.forks} Forks</div>
                     <div>{repo.stargazers_count} Stars</div>
