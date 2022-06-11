@@ -7,13 +7,13 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
 
-export interface Users {
+interface Users {
   id: string;
   avatar_url: string;
   public_repos: string;
   login: string;
 }
-export interface Props {
+interface Props {
   users: Array<{ avatar_url: string; login: string; id: number }>;
 }
 
@@ -32,14 +32,14 @@ export const ListUsers: React.FC<Props> = (props) => {
               Authorization: `token ${process.env.REACT_APP_GITHUB_TOKEN}`,
             },
           })
-            .then((res) => res.json())
-            .then((repo) => {
-              let arr = JSON.parse(sessionStorage.getItem("users")) || [];
-              sessionStorage.setItem("users", JSON.stringify([...arr, repo]));
-              setUsers(JSON.parse(sessionStorage.getItem("users")));
-            })
         )
-      );
+      )
+        .then((response) => Promise.all(response.map((v) => v.json())))
+        .then((result) => {
+          sessionStorage.setItem("users", JSON.stringify(result));
+          setUsers(result);
+        })
+        .catch((err) => console.log(err));
     } else {
       let arr = JSON.parse(sessionStorage.getItem("users")) || [];
       setUsers(arr);

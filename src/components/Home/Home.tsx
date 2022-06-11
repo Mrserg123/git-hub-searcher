@@ -26,7 +26,8 @@ export const Home: React.FC = () => {
           .then((response) => response.json())
           .then((users) => {
             setUsers(users.items);
-          });
+          })
+          .catch((err) => console.log(err));
       }
     }, 500);
     return () => clearTimeout(delayDebounceFn);
